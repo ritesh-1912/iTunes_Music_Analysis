@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>iTunes Music Store – Analytics Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; margin: 0; padding: 20px; background: #0f1419; color: #e6edf3; }
+    h1 { font-size: 1.5rem; margin-bottom: 24px; }
+    .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; margin-bottom: 24px; }
+    .kpi { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 16px; text-align: center; }
+    .kpi .value { font-size: 1.5rem; font-weight: 700; color: #58a6ff; }
+    .kpi .label { font-size: 0.8rem; color: #8b949e; margin-top: 4px; }
+    .charts { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
+    .chart-box { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 16px; }
+    .chart-box h2 { font-size: 1rem; margin: 0 0 12px; }
+    .chart-box canvas { max-height: 260px; }
+  </style>
+</head>
+<body>
+  <h1>Apple iTunes Music Store – Analytics Dashboard</h1>
+  <div class="kpis">
+    <div class="kpi"><div class="value" id="kpi-revenue">-</div><div class="label">Total Revenue ($)</div></div>
+    <div class="kpi"><div class="value" id="kpi-customers">-</div><div class="label">Customers</div></div>
+    <div class="kpi"><div class="value" id="kpi-invoices">-</div><div class="label">Invoices</div></div>
+    <div class="kpi"><div class="value" id="kpi-avg">-</div><div class="label">Avg Invoice ($)</div></div>
+  </div>
+  <div class="charts">
+    <div class="chart-box"><h2>Monthly Revenue</h2><canvas id="chart-monthly"></canvas></div>
+    <div class="chart-box"><h2>Top Genres by Revenue</h2><canvas id="chart-genres"></canvas></div>
+    <div class="chart-box"><h2>Top Countries by Revenue</h2><canvas id="chart-countries"></canvas></div>
+    <div class="chart-box"><h2>Top Customers by Spend</h2><canvas id="chart-customers"></canvas></div>
+    <div class="chart-box"><h2>Top Artists by Revenue</h2><canvas id="chart-artists"></canvas></div>
+  </div>
+  <script>
+    window.DASHBOARD_DATA = {"monthly_revenue":[{"month":"2019-01","revenue":85.14},{"month":"2019-02","revenue":59.4},{"month":"2019-03","revenue":125.73},{"month":"2019-04","revenue":116.82},{"month":"2019-05","revenue":104.94},{"month":"2019-06","revenue":92.07},{"month":"2019-07","revenue":124.74},{"month":"2019-08","revenue":159.39},{"month":"2019-09","revenue":126.72},{"month":"2019-10","revenue":43.56},{"month":"2019-11","revenue":71.28},{"month":"2019-12","revenue":111.87},{"month":"2020-01","revenue":43.56},{"month":"2020-02","revenue":97.02},{"month":"2020-03","revenue":78.21},{"month":"2020-04","revenue":119.79},{"month":"2020-05","revenue":82.17},{"month":"2020-06","revenue":120.78},{"month":"2020-07","revenue":76.23},{"month":"2020-08","revenue":72.27},{"month":"2020-09","revenue":95.04},{"month":"2020-10","revenue":144.54},{"month":"2020-11","revenue":83.16},{"month":"2020-12","revenue":125.73}],"top_genres":[{"genre":"Rock","revenue":2608.65},{"genre":"Metal","revenue":612.81},{"genre":"Alternative & Punk","revenue":487.08},{"genre":"Latin","revenue":165.33},{"genre":"R&B/Soul","revenue":157.41},{"genre":"Blues","revenue":122.76},{"genre":"Jazz","revenue":119.79},{"genre":"Alternative","revenue":115.83},{"genre":"Easy Listening","revenue":73.26},{"genre":"Pop","revenue":62.37}],"top_countries":[{"country":"USA","revenue":1040.49},{"country":"Canada","revenue":535.59},{"country":"Brazil","revenue":427.68},{"country":"France","revenue":389.07},{"country":"Germany","revenue":334.62},{"country":"Czech Republic","revenue":273.24},{"country":"United Kingdom","revenue":245.52},{"country":"Portugal","revenue":185.13},{"country":"India","revenue":183.15},{"country":"Ireland","revenue":114.84}],"top_customers":[{"name":"Franti\u0161ek Wichterlov\u00e1","total_spent":144.54},{"name":"Helena Hol\u00fd","total_spent":128.7},{"name":"Hugh O'Reilly","total_spent":114.84},{"name":"Manoj Pareek","total_spent":111.87},{"name":"Lu\u00eds Gon\u00e7alves","total_spent":108.9},{"name":"Fernanda Ramos","total_spent":106.92},{"name":"Jo\u00e3o Fernandes","total_spent":102.96},{"name":"Fran\u00e7ois Tremblay","total_spent":99.99},{"name":"Wyatt Girard","total_spent":99.99},{"name":"Jack Smith","total_spent":98.01}],"top_artists":[{"artist":"Metallica","revenue":494.01},{"artist":"Iron Maiden","revenue":439.56},{"artist":"Led Zeppelin","revenue":270.27},{"artist":"Deep Purple","revenue":178.2},{"artist":"Foo Fighters","revenue":123.75},{"artist":"Legi\u00e3o Urbana","revenue":103.95},{"artist":"Cidade Negra","revenue":95.04},{"artist":"Cl\u00e1udio Zoli","revenue":92.07},{"artist":"The Rolling Stones","revenue":84.15},{"artist":"Skank","revenue":81.18}],"total_revenue":4709.43,"total_customers":59,"total_invoices":614,"avg_invoice":7.67};
+    const d = window.DASHBOARD_DATA;
+    document.getElementById('kpi-revenue').textContent = d.total_revenue;
+    document.getElementById('kpi-customers').textContent = d.total_customers;
+    document.getElementById('kpi-invoices').textContent = d.total_invoices;
+    document.getElementById('kpi-avg').textContent = d.avg_invoice;
+    const opts = { responsive: true, maintainAspectRatio: true };
+    new Chart(document.getElementById('chart-monthly'), { type: 'line', data: { labels: d.monthly_revenue.map(x => x.month), datasets: [{ label: 'Revenue ($)', data: d.monthly_revenue.map(x => x.revenue), borderColor: '#58a6ff', fill: false }] }, options: opts });
+    new Chart(document.getElementById('chart-genres'), { type: 'bar', data: { labels: d.top_genres.map(x => x.genre), datasets: [{ label: 'Revenue ($)', data: d.top_genres.map(x => x.revenue), backgroundColor: '#238636' }] }, options: { ...opts, indexAxis: 'y' } });
+    new Chart(document.getElementById('chart-countries'), { type: 'bar', data: { labels: d.top_countries.map(x => x.country), datasets: [{ label: 'Revenue ($)', data: d.top_countries.map(x => x.revenue), backgroundColor: '#8957e5' }] }, options: { ...opts, indexAxis: 'y' } });
+    new Chart(document.getElementById('chart-customers'), { type: 'bar', data: { labels: d.top_customers.map(x => x.name), datasets: [{ label: 'Spent ($)', data: d.top_customers.map(x => x.total_spent), backgroundColor: '#d29922' }] }, options: { ...opts, indexAxis: 'y' } });
+    new Chart(document.getElementById('chart-artists'), { type: 'bar', data: { labels: d.top_artists.map(x => x.artist), datasets: [{ label: 'Revenue ($)', data: d.top_artists.map(x => x.revenue), backgroundColor: '#da3633' }] }, options: { ...opts, indexAxis: 'y' } });
+  </script>
+</body>
+</html>
