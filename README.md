@@ -2,8 +2,6 @@
 
 End-to-end SQL-based analytical pipeline for the iTunes music store: relational schema, data import, required SQL queries (Q1–Q15), exploratory and advanced analytics, and dashboards.
 
-**Repository:** [github.com/ritesh-1912/iTunes_Music_Analysis](https://github.com/ritesh-1912/iTunes_Music_Analysis)
-
 ## Clone and run
 
 ```bash
@@ -87,8 +85,3 @@ sqlite3 itunes.db
 - **SQL:** `sql/itunes_analysis_queries.sql` (Q1–Q15)
 - **Dashboard:** `dashboard/dashboard.html` and/or Power BI/Tableau using `exports/`
 - **Report:** `docs/FINAL_REPORT.md`
-
-## References
-
-- Project brief: `Project Title_ Apple iTunes Music Analysis.docx`
-- Presentation: `Itunes Apple Music Store Analysis.pptx`
